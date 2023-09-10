@@ -1,3 +1,4 @@
 project 4의 fullAdder에서의 halfAdder는 project 2의 halfAdder을 이용하여 작성하였습니다.
 
+add design sources를 이용해서 project2에서 작성한 halfadder를 project4에 넣으니
 vivado에서는 fullAdder의 하위요소에 halfAdder가 들어가있는데 폴더에는 .v 파일이 직접적으로 생성이 안되네요. 
