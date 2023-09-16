@@ -20,25 +20,38 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module fullAdder;
-    reg a,b,cin;
+module testbench_fullAdder;
+    // Inputs
+    reg a, b, cin;
+    // Outputs
     wire s, cout;
-  
     
-    halfAdder HA1(.a(a),.b(b),.s(s1),.c(c1));
-    halfAdder HA2(.a(s1),.b(cin),.s(s),.c(c2));
-    
-    assign cout = c1 | c2;
+    // Instantiate the fullAdder module
+    fullAdder uut (
+        .a(a),
+        .b(b),
+        .cin(cin),
+        .s(s),
+        .cout(cout)
+    );
     
     initial begin
-    a=0; b=0; cin=0; #125
-    a=0; b=0; cin=1; #125
-    a=0; b=1; cin=0; #125
-    a=0; b=1; cin=1; #125
-    a=1; b=0; cin=0; #125
-    a=1; b=0; cin=1; #125
-    a=1; b=1; cin=0; 
-    end
+    a=0; b=0; cin=0;
+    #10
+    a=0; b=0; cin=1;
+    #10
+    a=0; b=1; cin=0;
+    #10
+    a=0; b=1; cin=1;
+    #10
+    a=1; b=0; cin=0;
+    #10
+    a=1; b=0; cin=1;
+    #10
+    a=1; b=1; cin=0;
+    #10
+    a=1; b=1; cin=1;
+end
     
     
 endmodule

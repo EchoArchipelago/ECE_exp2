@@ -1,11 +1,11 @@
-`timescale 10ns / 100ps
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2023/09/10 11:41:27
+// Create Date: 2023/09/09 15:53:56
 // Design Name: 
-// Module Name: logic_gate5
+// Module Name: exercise
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,19 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module logic_gate5(a ,b ,v, w, x, y, z);
+module exercise(  a,b, x
 
-input  a,b;
-output  v, w, x, y, z;
-wire  v,w,x,y,z;
+    );
+input a,b;
 
-assign v = a & b;
-assign w = a | b;
-assign x = a ^ b;
-assign y = ~(a & b);
-assign z = ~(a ^ b);
+output x;
 
-
+assign x = a&b;
 
 endmodule
-
