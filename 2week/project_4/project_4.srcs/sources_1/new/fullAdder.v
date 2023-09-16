@@ -26,6 +26,7 @@ module fullAdder(
     );
     wire s, cout;
     wire s1;
+    wire c1, c2;
     
     halfAdder HA1(.a(a),.b(b),.s(s1),.c(c1));
     halfAdder HA2(.a(s1),.b(cin),.s(s),.c(c2));

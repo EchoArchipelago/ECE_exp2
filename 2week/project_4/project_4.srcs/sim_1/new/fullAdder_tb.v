@@ -21,12 +21,8 @@
 
 
 module testbench_fullAdder;
-    // Inputs
     reg a, b, cin;
-    // Outputs
     wire s, cout;
-    
-    // Instantiate the fullAdder module
     fullAdder uut (
         .a(a),
         .b(b),
