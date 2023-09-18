@@ -28,6 +28,14 @@ module eightToOneMUX_tb();
      
      eightToOneMUX e(I0, I1, I2, I3, I4, I5, I6, I7, S0, S1, S2, O);
      
+     assign I0 = 4'b0000;
+     assign I1 = 4'b0001;
+     assign I2 = 4'b0101;
+     assign I3 = 4'b1001;
+     assign I4 = 4'b0110;
+     assign I5 = 4'b1110;
+     assign I6 = 4'b1010;
+     assign I7 = 4'b1111;
 
      
      initial begin

@@ -27,14 +27,7 @@ module eightToOneMUX(
     output reg [3:0] O 
     );
  //Selctor인 S의 이진값에 따라 I의 숫자를 정하고, 그 숫자에 알맞는 input값을 Output으로 내보내는 8:1 MUX이다.
-     assign I0 = 4'b0000;
-     assign I1 = 4'b0001;
-     assign I2 = 4'b0101;
-     assign I3 = 4'b1001;
-     assign I4 = 4'b0110;
-     assign I5 = 4'b1110;
-     assign I6 = 4'b1010;
-     assign I7 = 4'b1111;
+
      
          always @ (*) begin
     

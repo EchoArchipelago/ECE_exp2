@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2023/09/17 21:03:58
+// Create Date: 2023/09/18 01:53:25
 // Design Name: 
-// Module Name: fourToTwoPriorityEncoder
+// Module Name: fourToOneMUX
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,14 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module fourToTwoPriorityEncoder(
-    input wire [3:0] D,
-    output wire x,y,z
+module fourToOneMUX(
+    input wire [1:0] I0,I1,I2,I3,
+    input wire S0,S1,
+    output reg [1:0] O
     );
+
     
-    assign x = D[2] | D[3];
-    assign y = D[3] | (~D[2] & D[1]);
-    assign z = D[3] | D[2] | D[1] | D[0];
-     
+        always @ (*) begin
+    
+        case({S1, S0})
+            3'b00 : O = I0;
+            3'b01 : O = I1;
+            3'b10 : O = I2;
+            3'b11 : O = I3;
+        endcase
+    end
+    
     
 endmodule
