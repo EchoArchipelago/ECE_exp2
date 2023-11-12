@@ -65,6 +65,7 @@ begin
             end
             LINE1 : begin
                 if(cnt >= 20) begin
+                    //{LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
                     LED_out = 8'b0000_1000;
                     state = DELAY_T;
                     cnt = 0;
@@ -73,6 +74,7 @@ begin
             end
             LINE2 : begin
                 if(cnt >= 20) begin
+                    //{LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
                     LED_out = 8'b0000_0100;
                     state = DELAY_T;
                     cnt = 0;
