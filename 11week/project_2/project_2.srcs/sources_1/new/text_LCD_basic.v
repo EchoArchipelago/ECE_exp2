@@ -22,6 +22,7 @@ parameter   DELAY = 3'b000,
 
 integer cnt;
 
+
 always @(posedge clk or negedge rst)
 begin
     if(!rst) begin
@@ -54,7 +55,7 @@ begin
                     cnt = 0;
                 end
                 else cnt = cnt + 1;
-            end
+            end 
             ENTRY_MODE : begin
                 if(cnt >= 30) begin
                     LED_out = 8'b0001_0000;
@@ -65,16 +66,16 @@ begin
             end
             LINE1 : begin
                 if(cnt >= 20) begin
-                    //{LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
+//                    {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
                     LED_out = 8'b0000_1000;
-                    state = DELAY_T;
+                    state = LINE2;
                     cnt = 0;
                 end
                 else cnt = cnt + 1;
             end
             LINE2 : begin
                 if(cnt >= 20) begin
-                    //{LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
+//                    {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0001_1100;
                     LED_out = 8'b0000_0100;
                     state = DELAY_T;
                     cnt = 0;
@@ -113,52 +114,72 @@ begin
             DISP_ONOFF :
                 {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0000_1100;
             ENTRY_MODE :
-                {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0000_0110;
+                {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0000_0111;
             LINE1 :
                 begin
                     case(cnt)
-                    00 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_1000_0000;
-                    01 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    02 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1000; // H
-                    03 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_0101; // E
-                    04 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1100; // L
-                    05 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1100; // L
-                    06 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1111; // O
-                    07 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    08 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0101_0111; // W
-                    09 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1111; // O
-                    10 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0101_0010; // R
-                    11 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1100; // L
-                    12 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_0100; // D
-                    13 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0001; // !
-                    14 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    15 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    16 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    default : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
+                    00 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1000_0000;
+                    01 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    02 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1000; // H
+                    03 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_0101; // E
+                    04 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1100; // L
+                    05 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1100; // L
+                    06 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1111; // O
+                    07 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    08 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0101_0111; // W
+                    09 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1111; // O
+                    10 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0101_0010; // R
+                    11 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1100; // L
+                    12 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_0100; // D
+                    13 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0001; // !
+                    14 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    15 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    16 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    default : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
                 endcase
+         
            end
            LINE2 :
                 begin
                     case(cnt)
-                    00 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_1100_0000;
-                    01 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0010; // 2
-                    02 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0000; // 0
-                    03 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0010; // 2
-                    04 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0010; // 2
-                    05 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0100; // 4
-                    06 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0100; // 4
-                    07 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0000; // 0
-                    08 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0000; // 0
-                    09 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0010; // 2
-                    10 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0011_0100; // 4
-                    11 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 
-                    12 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1011; // K
-                    13 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0101_0011; // S
-                    14 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0100_1000; // H
-                    15 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    16 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
-                    default : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
+                    00 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1100_0000;
+                    01 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0010; // 2
+                    02 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0000; // 0
+                    03 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0010; // 2
+                    04 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0010; // 2
+                    05 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0100; // 4
+                    06 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0100; // 4
+                    07 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0000; // 0
+                    08 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0000; // 0
+                    09 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0010; // 2
+                    10 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0100; // 4
+                    11 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; // 
+                    12 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1011; // K
+                    13 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0101_0011; // S
+                    14 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0100_1000; // H
+                    15 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    16 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+                    default : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0010_0000; //
+//                    00 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_1100_0000;
+//                    01 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 2
+//                    02 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 0
+//                    03 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 2
+//                    04 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 2
+//                    05 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 4
+//                    06 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 4
+//                    07 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 0
+//                    08 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 0
+//                    09 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 2
+//                    10 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 4
+//                    11 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // 
+//                    12 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // K
+//                    13 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // S
+//                    14 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; // H
+//                    15 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
+//                    16 : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
+//                    default : {LCD_RS, LCD_RW, LCD_DATA} = 10'b1_0_0010_0000; //
                 endcase
+              
             end
             DELAY_T : 
                 {LCD_RS, LCD_RW, LCD_DATA} = 10'b0_0_0000_0010;

@@ -12,7 +12,7 @@ wire led_signal;
 LED_control LC (clk, rst, bin, seg_data, seg_sel, led_signal);
 
 always begin 
-#0.5 clk <= ~clk;
+#0.5 clk <= ~clk; // Set clock as 1MHz
 end
 
 initial begin
