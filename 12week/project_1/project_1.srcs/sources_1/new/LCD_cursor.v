@@ -1,12 +1,13 @@
 `timescale 1ns / 1ps
 
 module LCD_cursor(
-rst, clk, LCD_E, LCD_RS, LCD_RW, LCD_DATA, LED_out, number_btn, control_btn
+rst, clk, LCD_E, LCD_RS, LCD_RW, LCD_DATA, LED_out, number_btn, control_btn, line_change
     );
 
 input rst, clk;
 input [9:0] number_btn;
 input [1:0] control_btn;
+input line_change;
 
 wire [9:0] number_btn_t;
 wire [1:0] control_btn_t;
@@ -23,6 +24,8 @@ output reg [7:0] LED_out;
 
 wire LCD_E;
 reg LCD_RS, LCD_RW;
+
+reg [9:0] address_reg;
 
 reg [7:0] cnt;
 
@@ -82,6 +85,8 @@ begin
     end
 end
 
+
+      
 always@ (posedge clk or negedge rst) 
 begin
     if(!rst)
@@ -127,12 +132,20 @@ begin
                 {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0011_1000;
                 DISP_ONOFF :
                 {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_1111;
-                FUNCTION_SET :
+                ENTRY_MODE :
                 {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_0110;
-                FUNCTION_SET :
-                {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_0010;
-                FUNCTION_SET :
+                SET_ADDRESS :
+                {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_0011;
+                DELAY_T : begin
                 {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_1111;
+                            if ({LCD_RS, LCD_RW, LCD_DATA} == 10'b0_0_1001_0101) begin
+                                {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1100_0000;
+                            end
+                            else if ({LCD_RS, LCD_RW, LCD_DATA} == 10'b0_0_1100_0000) begin
+                                {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1000_0000;
+                            end
+                            end
+                
                 WRITE : begin
                     if(cnt == 20) begin
                         case(number_btn)
@@ -148,22 +161,48 @@ begin
                         10'b0000_0000_01 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0011_0000; //0
                         endcase
                     end
-                    else {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0000_1111;
+                    else {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_1111;
                 end
                 CURSOR : begin
                     if(cnt == 20) begin
                         case(control_btn)
-                            2'b10 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0001_0000; //left
-                            2'b01 : {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0001_0100;
+                            2'b10 : begin
+                            {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0001_0000; 
+             end //left
+                            2'b01 : begin
+                            {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0001_0100;
+             end
                         endcase
                     end
-                    else {LCD_RS, LCD_RW, LCD_DATA} <= 10'b1_0_0000_1111;
+                    else {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_1111;
                 end
+                
             endcase
+            if (line_change == 1) begin
+            {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1100_0000;
+            end
         end
 end
 
-// in above block, WRITE and CURSOR has 'if' paragraph that makes operating only once.
 
+
+
+//always @(posedge clk or negedge rst)
+//begin
+//    if(!rst)
+//        {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_0000_0001;
+//    else
+//    begin
+//        if({LCD_RS, LCD_RW, LCD_DATA} == 10'b0_0_1001_0101 && state == 3'b111) //address 15
+//            {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1100_0000; //address 40
+//        else if ({LCD_RS, LCD_RW, LCD_DATA} == 10'b0_0_1101_0101 && state == 3'b111) // address 55
+//            {LCD_RS, LCD_RW, LCD_DATA} <= 10'b0_0_1000_0000; // address 0
+//    end
+//end
+
+         
 assign LCD_E = clk;
 endmodule
+
+//½ÇÆÐ
+

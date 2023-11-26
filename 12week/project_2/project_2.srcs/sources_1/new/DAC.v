@@ -1,4 +1,4 @@
-module DAC_display(clk, rst, btn, add_sel, dac_csn, dac_ldacn, dac_wrn, dac_a_b, dac_d, led_out,LCD_E, LCD_RS, LCD_RW, LCD_DATA);
+module DAC_display(clk, rst, btn, add_sel, dac_csn, dac_ldacn, dac_wrn, dac_a_b, dac_d, led_out);
 
 input clk, rst;
 input [5:0] btn;
@@ -7,8 +7,6 @@ input add_sel;
 output reg dac_csn, dac_ldacn, dac_wrn, dac_a_b;
 output reg [7:0] dac_d;   //DAC is 8bit
 output reg [7:0] led_out;
-output LCD_E, LCD_RS, LCD_RW;
-output reg [7:0] LCD_DATA;
 
 reg [7:0] dac_d_temp;
 reg [7:0] cnt;
@@ -28,7 +26,7 @@ always @(posedge clk or negedge rst)
 begin
     if(!rst) begin
         state <= DELAY;
-        cnt <= 0;
+        cnt <= 8'b0000_0000;
     end
     else begin
         case(state)
